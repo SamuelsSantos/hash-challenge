@@ -20,11 +20,11 @@ public class ProductResource {
     private Set<Product> products = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
 
     public ProductResource() {
-        for (int i = 1; i < 6; i++) {
+        for (Integer i = 1; i < 6; i++) {
             Product product = new Product();
-            product.setId(i);
+            product.setId(i.toString());
             product.setTitle("Product " + i);
-            product.setDescripion(" Description product " + i);
+            product.setDescription(" Description product " + i);
             product.setDiscount(new Discount());
             product.setPriceInCents(i * 100);
             products.add(product);

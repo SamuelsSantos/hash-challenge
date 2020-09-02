@@ -1,17 +1,25 @@
 package com.samuelssantos.dto;
 
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbPropertyOrder;
+import javax.json.bind.config.PropertyOrderStrategy;
+
+@JsonbPropertyOrder(PropertyOrderStrategy.ANY)
 public class Product {
-    private long id;
+
+    private String id;
+
+    @JsonbProperty("price_in_cents")
     private long priceInCents;
     private String title;
-    private String descripion;
+    private String description;
     private Discount discount;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -31,12 +39,12 @@ public class Product {
         this.title = title;
     }
 
-    public String getDescripion() {
-        return descripion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripion(String descripion) {
-        this.descripion = descripion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Discount getDiscount() {

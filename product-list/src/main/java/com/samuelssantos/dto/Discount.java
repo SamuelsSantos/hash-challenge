@@ -1,14 +1,24 @@
 package com.samuelssantos.dto;
 
+
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbPropertyOrder;
+import javax.json.bind.config.PropertyOrderStrategy;
+
+@JsonbPropertyOrder(PropertyOrderStrategy.ANY)
 public class Discount {
-    private Float percent;
+
+    @JsonbProperty("pct")
+    private float percent;
+
+    @JsonbProperty("value_in_cents")
     private long valueInCents;
 
-    public Float getPercent() {
+    public float getPercent() {
         return percent;
     }
 
-    public void setPercent(Float percent) {
+    public void setPercent(float percent) {
         this.percent = percent;
     }
 
