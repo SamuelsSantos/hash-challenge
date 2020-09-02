@@ -3,9 +3,7 @@ package com.samuelssantos;
 import com.samuelssantos.dto.Discount;
 import com.samuelssantos.dto.Product;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
@@ -31,7 +29,18 @@ public class ProductResource {
     }
 
     @GET
-    public Response list() {
+    public Response findAll() {
         return Response.ok(products).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Response findById(@PathParam("id") String id) {
+        Product product = products
+                .stream()
+                .filter(p -> p.getId().equals(id))
+                .findAny()
+                .orElseThrow(NotFoundException::new);
+        return Response.ok(product).build();
     }
 }

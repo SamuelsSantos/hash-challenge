@@ -22,6 +22,7 @@ dependencies {
             'io.quarkus:quarkus-resteasy-jsonb',
             'io.quarkus:quarkus-smallrye-openapi',
             'io.quarkus:quarkus-smallrye-health',
+            'io.quarkus:quarkus-smallrye-opentracing',
     )
 
     testImplementation 'io.quarkus:quarkus-junit5'
