@@ -17,4 +17,13 @@ public class ProductResourceTest {
                 .statusCode(200);
     }
 
+
+    @Test
+    public void testDocApi() {
+        given()
+                .when().get("/swagger-ui")
+                .then()
+                .statusCode(200);
+    }
+
 }
