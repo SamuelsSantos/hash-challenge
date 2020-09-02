@@ -27,7 +27,7 @@ public class ProductResourceTest {
     @Test
     public void testMicroProfileApi() {
         given()
-                .when().get("//health/live")
+                .when().get("/health/live")
                 .then()
                 .statusCode(200);
     }

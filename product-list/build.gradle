@@ -24,6 +24,7 @@ dependencies {
             'io.quarkus:quarkus-smallrye-health',
             'io.quarkus:quarkus-smallrye-opentracing',
             'io.quarkus:quarkus-smallrye-metrics',
+            'io.quarkus:quarkus-smallrye-fault-tolerance',
     )
 
     testImplementation 'io.quarkus:quarkus-junit5'
