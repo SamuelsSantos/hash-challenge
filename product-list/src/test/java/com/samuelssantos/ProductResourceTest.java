@@ -26,4 +26,12 @@ public class ProductResourceTest {
                 .statusCode(200);
     }
 
+    @Test
+    public void testMicroProfileApi() {
+        given()
+                .when().get("//health/live")
+                .then()
+                .statusCode(200);
+    }
+
 }
