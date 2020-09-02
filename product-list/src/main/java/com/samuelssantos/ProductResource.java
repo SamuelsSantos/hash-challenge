@@ -10,7 +10,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.Random;
 import java.util.Set;
 
 @Path("/product")

@@ -18,7 +18,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-grpc'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-resteasy'
-    compile (
+    compile(
             'io.quarkus:quarkus-resteasy-jsonb',
             'io.quarkus:quarkus-smallrye-openapi',
             'io.quarkus:quarkus-smallrye-health',
