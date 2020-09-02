@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package com.samuelssantos.discount.calculator;
+
+option go_package = ".;pb";
+
+message DiscountRequest {
+  string product_id = 1;
+  string user_id = 2;
+}
