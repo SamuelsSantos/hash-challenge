@@ -10,12 +10,11 @@ import static org.hamcrest.CoreMatchers.is;
 public class ProductResourceTest {
 
     @Test
-    public void testHelloEndpoint() {
+    public void testGetProduct() {
         given()
-                .when().get("/hello")
+                .when().get("/product")
                 .then()
-                .statusCode(200)
-                .body(is("hello"));
+                .statusCode(200);
     }
 
 }
