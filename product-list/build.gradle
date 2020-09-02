@@ -23,6 +23,7 @@ dependencies {
             'io.quarkus:quarkus-smallrye-openapi',
             'io.quarkus:quarkus-smallrye-health',
             'io.quarkus:quarkus-smallrye-opentracing',
+            'io.quarkus:quarkus-smallrye-metrics',
     )
 
     testImplementation 'io.quarkus:quarkus-junit5'
