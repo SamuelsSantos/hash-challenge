@@ -1,7 +1,7 @@
 ####
 # This Dockerfile is used in order to build a container that runs the Quarkus application in JVM mode
 #
-# Before building the docker image run:
+# Before building the container image run:
 #
 # mvn package
 #
@@ -45,8 +45,8 @@ RUN microdnf install curl ca-certificates ${JAVA_PACKAGE} \
 # Configure the JAVA_OPTIONS, you can add -XshowSettings:vm to also display the heap size.
 ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 
-COPY build/lib/* /deployments/lib/
-COPY build/*-runner.jar /deployments/app.jar
+COPY target/lib/* /deployments/lib/
+COPY target/*-runner.jar /deployments/app.jar
 
 EXPOSE 8080
 USER 1001
