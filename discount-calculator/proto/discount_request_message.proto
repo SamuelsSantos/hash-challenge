@@ -1,8 +1,9 @@
 syntax = "proto3";
 
-package com.samuelssantos.discount.calculator;
+package com.samuelssantos.pb;
 
 option go_package = ".;pb";
+option java_multiple_files = true;
 
 message DiscountRequest {
   string product_id = 1;
