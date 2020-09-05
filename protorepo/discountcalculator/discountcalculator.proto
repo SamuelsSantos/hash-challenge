@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = ".;pb";
+option java_package = "com.samuelssantos.pb";
+option java_multiple_files = true;
+
+message DiscountRequest {
+  string product_id = 1;
+  string user_id = 2;
+}
+
+message DiscountResponse {
+  string msg = 1;
+}
+
+service DiscountCalculatorService {
+  rpc Process(DiscountRequest) returns (DiscountResponse);
+}
