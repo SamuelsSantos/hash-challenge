@@ -1,0 +1,26 @@
+version: "3"
+services:
+  user-db:
+    container_name: user-db
+    image: postgres:12.3
+    ports:
+      - 5432:5432
+    env_file:
+      - ./users/database.env
+    volumes:
+      - ./users/infra:/docker-entrypoint-initdb.d/
+      - db_user:/var/lib/postgresql/data
+  product-db:
+    container_name: product-db
+    image: postgres:12.3
+    ports:
+      - 5433:5432
+    env_file:
+      - ./products/database.env
+    volumes:
+      - ./products/infra:/docker-entrypoint-initdb.d/
+      - db_products:/var/lib/postgresql/data
+
+volumes:
+  db_user:
+  db_products:
