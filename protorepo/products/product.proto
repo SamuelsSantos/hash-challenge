@@ -13,7 +13,7 @@ message Product {
   string id = 1;
   int64 price_in_cents = 2;
   string title = 3;
-  string descricao = 4;
+  string description = 4;
   Discount discount = 5;
 }
 
@@ -29,5 +29,5 @@ message Response {
 
 service ProductService {
   rpc GetByID(Request) returns (Response) {};
-  rpc GetAll(Empty) returns (stream Response) {};
+  rpc List(Empty) returns (stream Response) {};
 }

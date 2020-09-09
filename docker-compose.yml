@@ -25,12 +25,25 @@ services:
     build:
       context: ./users
       dockerfile: Dockerfile
+    image: user-service:0.0.1
     ports:
       - 8485:50001
     env_file:
       - ./users/.env
     depends_on:
       - user-db
+  product-service:
+    container_name: product-service
+    build:
+      context: ./products
+      dockerfile: Dockerfile
+    image: product-service:0.0.1
+    ports:
+      - 8486:50001
+    env_file:
+      - ./products/.env
+    depends_on:
+      - product-db
 
 volumes:
   db_user:
