@@ -18,7 +18,7 @@ func main() {
 		rg.GET("/:id", fetchUser)
 	}
 
-	router.Run()
+	router.Run(":8081")
 }
 
 func fetchUser(c *gin.Context) {

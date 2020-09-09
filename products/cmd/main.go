@@ -20,7 +20,7 @@ func main() {
 		rg.GET("/", fetchAll)
 	}
 
-	router.Run()
+	router.Run(":8080")
 }
 
 func fetchProduct(c *gin.Context) {
