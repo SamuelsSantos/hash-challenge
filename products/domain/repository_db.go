@@ -28,6 +28,15 @@ func (r *SQLRepo) GetByID(id string) (*sql.Rows, error) {
 	return rows, nil
 }
 
+// List all products
+func (r *SQLRepo) List() (*sql.Rows, error) {
+	rows, err := r.db.Query(`select id, title, description, price_in_cents from public.products`)
+	if err != nil {
+		return nil, err
+	}
+	return rows, nil
+}
+
 //Close database connection
 func (r *SQLRepo) Close() error {
 	return r.db.Close()

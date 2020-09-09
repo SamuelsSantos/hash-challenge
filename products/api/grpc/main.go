@@ -9,6 +9,7 @@ import (
 	"github.com/SamuelsSantos/product-discount-service/products/config"
 	"github.com/SamuelsSantos/product-discount-service/products/domain"
 	pb "github.com/SamuelsSantos/product-discount-service/products/domain/pb"
+	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 )
 
