@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	pb "github.com/SamuelsSantos/product-discount-service/products/pb"
+	pb "github.com/SamuelsSantos/product-discount-service/products/domain/pb"
 	"github.com/patrickmn/go-cache"
 )
 
