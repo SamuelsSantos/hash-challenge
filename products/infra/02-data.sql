@@ -56,7 +56,7 @@ WITH products_json (doc) AS (VALUES
     "id": "2d98aea7-be67-5f03-b7c5-ef82d2774e6a",
     "title": "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
     "price_in_cents": 6400,
-    "description": "USB 3.0 and USB 2.0 Compatibility Fast data transfers Improve PC Performance High Capacity; Compatibility Formatted NTFS for Windows 10, Windows 8.1, Windows 7; Reformatting may be required for other operating systems; Compatibility may vary depending on user’s hardware configuration and operating system"
+    "description": "USB 3.0 and USB 2.0 Compatibility Fast data transfers Improve PC Performance High Capacity; Compatibility Formatted NTFS for Windows 10, Windows 8.1, Windows 7; Reformatting may be required for other operating systems."
   },
   {
     "id": "7077fd62-5627-57b0-880d-b4653abed896",
