@@ -1,6 +1,6 @@
 gen:
-	mkdir -p $(SERVICE)/pb
-	protoc --proto_path=protorepo protorepo/$(SERVICE)/*.proto --go_out=plugins=grpc:$(SERVICE)/pb
+	mkdir -p $(SERVICE)/domain/pb
+	protoc --proto_path=protorepo protorepo/$(SERVICE)/*.proto --go_out=plugins=grpc:$(SERVICE)/domain/pb
 
 clean:
 	rm $(SERVICE)/pb/*.go
