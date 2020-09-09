@@ -1,2 +1,2 @@
 server:
-	go run main.go -port 8485
+	go run api/grpc/main.go -port 8485
