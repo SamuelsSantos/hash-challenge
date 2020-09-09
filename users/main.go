@@ -6,22 +6,25 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/SamuelsSantos/product-discount-service/users/pb"
-	"github.com/SamuelsSantos/product-discount-service/users/service"
+	"github.com/SamuelsSantos/product-discount-service/users/config"
+	"github.com/SamuelsSantos/product-discount-service/users/domain"
+	pb "github.com/SamuelsSantos/product-discount-service/users/domain/pb"
+	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 )
 
 func main() {
 
-	service.SetCache()
+	cfg := config.NewConfig()
+	service := domain.NewService(cfg)
 
-	port := flag.Int("port", 0, "the server port")
+	port := flag.Int("port", 8485, "the server port")
 	flag.Parse()
 	log.Printf("start server on port %d", *port)
 
 	grpc := grpc.NewServer()
 
-	pb.RegisterUserServiceServer(grpc, service.NewServer{})
+	pb.RegisterUserServiceServer(grpc, service)
 	address := fmt.Sprintf("0.0.0.0:%d", *port)
 	listener, err := net.Listen("tcp", address)
 	if err != nil {

@@ -25,7 +25,7 @@ func NewConfig() *Config {
 	return &Config{
 		Db: &dbConfig{
 			Host:     GetenvString("DB_HOST", "127.0.0.1"),
-			Port:     GetenvString("DB_PORT", "5433"),
+			Port:     GetenvString("DB_PORT", "5432"),
 			User:     GetenvString("DB_USER", "postgres"),
 			Name:     GetenvString("DB_NAME", "users"),
 			Password: GetenvString("DB_PASSWORD", "hash"),

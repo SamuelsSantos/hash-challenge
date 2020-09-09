@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	users "github.com/SamuelsSantos/product-discount-service/users/pb"
+	users "github.com/SamuelsSantos/product-discount-service/users/domain/pb"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
