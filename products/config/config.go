@@ -20,7 +20,7 @@ type Config struct {
 	Db *dbConfig
 }
 
-//NewConfig new struct to configurations enviroments
+//NewConfig new struct to configurations environments
 func NewConfig() *Config {
 	return &Config{
 		Db: &dbConfig{

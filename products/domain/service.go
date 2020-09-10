@@ -49,13 +49,11 @@ func NewService(cfg *config.Config) *ProductService {
 	}
 }
 
-func getProduct(s *ProductService, id string) (*pb.Response, error) {
+func getProduct(s *ProductService, id string) (*pb.Product, error) {
 	rows, err := s.repo.GetByID(id)
 	if err != nil {
 		return nil, fmt.Errorf("could not find Product with id: %v", id)
 	}
-
-	var product *pb.Product
 
 	for rows.Next() {
 		var id string
@@ -74,16 +72,13 @@ func getProduct(s *ProductService, id string) (*pb.Response, error) {
 			Description:  description,
 			PriceInCents: priceInCents,
 		}
-		product = &pbProduct
+		return &pbProduct, nil
 	}
-
-	return &pb.Response{
-		Result: product,
-	}, nil
+	return nil, errors.New("Not found")
 }
 
 // GetByID fetch product by ID
-func (s *ProductService) GetByID(ctx context.Context, r *pb.Request) (*pb.Response, error) {
+func (s *ProductService) GetByID(ctx context.Context, r *pb.RequestProduct) (*pb.Product, error) {
 	id := r.GetId()
 	return getProduct(s, id)
 }
@@ -114,7 +109,7 @@ func (s *ProductService) List(r *pb.Empty, stream pb.ProductService_ListServer) 
 			PriceInCents: priceInCents,
 		}
 
-		res := &pb.Response{Result: &pbProduct}
+		res := &pbProduct
 		err := stream.Send(res)
 		if err != nil {
 			return err
