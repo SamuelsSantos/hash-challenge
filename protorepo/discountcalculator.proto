@@ -1,10 +1,12 @@
 syntax = "proto3";
 
-package pb;
+package protorepo;
 
 option go_package = ".;pb";
 option java_package = "com.samuelssantos.pb";
 option java_multiple_files = true;
+
+import "products.proto";
 
 message DiscountRequest {
   string product_id = 1;
@@ -12,7 +14,7 @@ message DiscountRequest {
 }
 
 message DiscountResponse {
-  string msg = 1;
+  Product result = 1;
 }
 
 service DiscountCalculatorService {

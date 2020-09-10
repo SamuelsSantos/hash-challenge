@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package pb;
+package protorepo;
 
 option go_package = ".;pb";
 
 message Discount {
-  float pct = 1;
-  int32 value_in_cents = 2;
+  double pct = 1;
+  int64 value_in_cents = 2;
 }
 
 message Product {
@@ -19,15 +19,11 @@ message Product {
 
 message Empty {}
 
-message Request {
+message RequestProduct {
   string id = 1;
 }
 
-message Response {
-  Product result = 1;
-}
-
 service ProductService {
-  rpc GetByID(Request) returns (Response) {};
-  rpc List(Empty) returns (stream Response) {};
+  rpc GetByID(RequestProduct) returns (Product) {};
+  rpc List(Empty) returns (stream Product) {};
 }

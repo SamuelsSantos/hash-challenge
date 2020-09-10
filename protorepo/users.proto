@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package pb;
+package protorepo;
 
 option go_package = ".;pb";
 
@@ -13,14 +13,10 @@ message User {
   google.protobuf.Timestamp date_of_birth = 4;
 }
 
-message Request {
+message RequestUser {
   string id = 1;
 }
 
-message Response {
-  User result = 1;
-}
-
 service UserService {
-  rpc GetByID(Request) returns (Response) {};
+  rpc GetByID(RequestUser) returns (User) {};
 }
