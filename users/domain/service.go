@@ -3,6 +3,7 @@ package domain
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 
@@ -44,13 +45,11 @@ func NewService(cfg *config.Config) *UserService {
 	}
 }
 
-func getUser(s *UserService, id string) (*pb.Response, error) {
+func getUser(s *UserService, id string) (*pb.User, error) {
 	rows, err := s.repo.GetByID(id)
 	if err != nil {
 		return nil, fmt.Errorf("could not find User with id: %v", id)
 	}
-
-	var user *pb.User
 
 	for rows.Next() {
 		var id string
@@ -75,16 +74,14 @@ func getUser(s *UserService, id string) (*pb.Response, error) {
 			DateOfBirth: dtProto,
 		}
 
-		user = &pbUser
+		return &pbUser, nil
 	}
 
-	return &pb.Response{
-		Result: user,
-	}, nil
+	return nil, errors.New("Not Found")
 }
 
 // GetByID fetch user by ID
-func (s *UserService) GetByID(ctx context.Context, r *pb.Request) (*pb.Response, error) {
+func (s *UserService) GetByID(ctx context.Context, r *pb.RequestUser) (*pb.User, error) {
 	id := r.GetId()
 
 	return getUser(s, id)

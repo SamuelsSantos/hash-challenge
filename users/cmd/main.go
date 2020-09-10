@@ -30,12 +30,12 @@ func fetchUser(c *gin.Context) {
 	defer conn.Close()
 
 	client := users.NewUserServiceClient(conn)
-	player, e := client.GetByID(context.Background(), &users.Request{
+	users, e := client.GetByID(context.Background(), &users.Request{
 		Id: c.Param("id"),
 	})
 	if e != nil {
-		log.Fatalf("Failed to get player data: %v", e)
+		log.Fatalf("Failed to get users data: %v", e)
 	}
 
-	c.JSON(200, &player)
+	c.JSON(200, &users)
 }
