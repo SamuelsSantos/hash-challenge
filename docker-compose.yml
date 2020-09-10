@@ -20,8 +20,8 @@ services:
     volumes:
       - ./products/infra:/docker-entrypoint-initdb.d/
       - db_products:/var/lib/postgresql/data
-  users-service:
-    container_name: users-service
+  user-service:
+    container_name: user-service
     build:
       context: ./users
       dockerfile: Dockerfile
@@ -44,6 +44,19 @@ services:
       - ./products/.env
     depends_on:
       - product-db
+  discount-calculator-service:
+    container_name: discount-calculator-service
+    build:
+      context: ./discountcalculator
+      dockerfile: Dockerfile
+    image: discount-calculator-service:0.0.1
+    ports:
+      - 8487:50001
+    env_file:
+      - ./discountcalculator/.env
+    depends_on:
+      - product-service
+      - user-service
 
 volumes:
   db_user:
