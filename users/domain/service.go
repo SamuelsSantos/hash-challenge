@@ -3,13 +3,10 @@ package domain
 import (
 	"context"
 	"database/sql"
-	"errors"
-	"fmt"
 	"time"
 
 	"github.com/SamuelsSantos/product-discount-service/users/config"
 	"github.com/SamuelsSantos/product-discount-service/users/domain/pb"
-	"github.com/golang/protobuf/ptypes"
 	"github.com/patrickmn/go-cache"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -45,44 +42,8 @@ func NewService(cfg *config.Config) *UserService {
 	}
 }
 
-func getUser(s *UserService, id string) (*pb.User, error) {
-	rows, err := s.repo.GetByID(id)
-	if err != nil {
-		return nil, fmt.Errorf("could not find User with id: %v", id)
-	}
-
-	for rows.Next() {
-		var id string
-		var firstName string
-		var lastName string
-		var dateOfBirth time.Time
-
-		err = rows.Scan(&id, &firstName, &lastName, &dateOfBirth)
-		if err != nil {
-			return nil, err
-		}
-
-		dtProto, err := ptypes.TimestampProto(dateOfBirth)
-		if err != nil {
-			return nil, err
-		}
-
-		pbUser := pb.User{
-			Id:          id,
-			FirstName:   firstName,
-			LastName:    lastName,
-			DateOfBirth: dtProto,
-		}
-
-		return &pbUser, nil
-	}
-
-	return nil, errors.New("Not Found")
-}
-
 // GetByID fetch user by ID
 func (s *UserService) GetByID(ctx context.Context, r *pb.RequestUser) (*pb.User, error) {
 	id := r.GetId()
-
-	return getUser(s, id)
+	return s.repo.GetByID(id)
 }
