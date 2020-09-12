@@ -10,6 +10,7 @@ import (
 
 	"github.com/SamuelsSantos/product-discount-service/products/config"
 	"github.com/SamuelsSantos/product-discount-service/products/domain/pb"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	"github.com/patrickmn/go-cache"
 )
 
@@ -44,37 +45,15 @@ func NewService(cfg *config.Config) *ProductService {
 		panic(err)
 	}
 
+	repository := NewRepository(dB)
+	//defer repository.Close()
 	return &ProductService{
-		repo: NewRepository(dB),
+		repo: repository,
 	}
 }
 
 func getProduct(s *ProductService, id string) (*pb.Product, error) {
-	rows, err := s.repo.GetByID(id)
-	if err != nil {
-		return nil, fmt.Errorf("could not find Product with id: %v", id)
-	}
-
-	for rows.Next() {
-		var id string
-		var title string
-		var description string
-		var priceInCents int64
-
-		err = rows.Scan(&id, &title, &description, &priceInCents)
-		if err != nil {
-			return nil, err
-		}
-
-		pbProduct := pb.Product{
-			Id:           id,
-			Title:        title,
-			Description:  description,
-			PriceInCents: priceInCents,
-		}
-		return &pbProduct, nil
-	}
-	return nil, errors.New("Not found")
+	return s.repo.GetByID(id)
 }
 
 // GetByID fetch product by ID
@@ -84,38 +63,20 @@ func (s *ProductService) GetByID(ctx context.Context, r *pb.RequestProduct) (*pb
 }
 
 // List fetch products
-func (s *ProductService) List(r *pb.Empty, stream pb.ProductService_ListServer) error {
+func (s *ProductService) List(r *empty.Empty, stream pb.ProductService_ListServer) error {
 
-	rows, err := s.repo.List()
+	products, err := s.repo.List()
 	if err != nil {
 		return errors.New("Could not find products")
 	}
 
-	for rows.Next() {
-		var id string
-		var title string
-		var description string
-		var priceInCents int64
-
-		err = rows.Scan(&id, &title, &description, &priceInCents)
+	for _, product := range products {
+		err := stream.Send(product)
 		if err != nil {
 			return err
 		}
 
-		pbProduct := pb.Product{
-			Id:           id,
-			Title:        title,
-			Description:  description,
-			PriceInCents: priceInCents,
-		}
-
-		res := &pbProduct
-		err := stream.Send(res)
-		if err != nil {
-			return err
-		}
-
-		log.Printf("sent product with id: %v", id)
+		log.Printf("sent product with id: %v", product.GetId())
 	}
 
 	return nil

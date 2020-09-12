@@ -6,6 +6,7 @@ import (
 	"log"
 
 	pb "github.com/SamuelsSantos/product-discount-service/products/domain/pb"
+	empty "github.com/golang/protobuf/ptypes/empty"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
@@ -32,7 +33,7 @@ func fetchProduct(c *gin.Context) {
 	defer conn.Close()
 
 	client := pb.NewProductServiceClient(conn)
-	value, e := client.GetByID(context.Background(), &pb.Request{
+	value, e := client.GetByID(context.Background(), &pb.RequestProduct{
 		Id: c.Param("id"),
 	})
 	if e != nil {
@@ -51,7 +52,7 @@ func fetchAll(c *gin.Context) {
 	defer conn.Close()
 
 	client := pb.NewProductServiceClient(conn)
-	stream, err := client.List(context.Background(), &pb.Empty{})
+	stream, err := client.List(context.Background(), &empty.Empty{})
 
 	if err != nil {
 		log.Fatal("cannot find products: ", err)
@@ -66,7 +67,6 @@ func fetchAll(c *gin.Context) {
 			log.Fatal("cannot receive response: ", err)
 		}
 
-		product := res.GetResult()
-		c.JSON(200, &product)
+		c.JSON(200, &res)
 	}
 }
