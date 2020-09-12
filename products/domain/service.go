@@ -52,14 +52,10 @@ func NewService(cfg *config.Config) *ProductService {
 	}
 }
 
-func getProduct(s *ProductService, id string) (*pb.Product, error) {
-	return s.repo.GetByID(id)
-}
-
 // GetByID fetch product by ID
 func (s *ProductService) GetByID(ctx context.Context, r *pb.RequestProduct) (*pb.Product, error) {
 	id := r.GetId()
-	return getProduct(s, id)
+	return s.repo.GetByID(id)
 }
 
 // List fetch products
