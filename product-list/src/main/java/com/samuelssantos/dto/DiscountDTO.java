@@ -6,7 +6,7 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
 import javax.json.bind.config.PropertyOrderStrategy;
 
 @JsonbPropertyOrder(PropertyOrderStrategy.ANY)
-public class Discount {
+public class DiscountDTO {
 
     @JsonbProperty("pct")
     private double percent;

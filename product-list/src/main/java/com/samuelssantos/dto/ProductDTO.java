@@ -5,7 +5,7 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
 import javax.json.bind.config.PropertyOrderStrategy;
 
 @JsonbPropertyOrder(PropertyOrderStrategy.ANY)
-public class Product {
+public class ProductDTO {
 
     private String id;
 
@@ -13,7 +13,8 @@ public class Product {
     private long priceInCents;
     private String title;
     private String description;
-    private Discount discount;
+    @JsonbProperty("Discount")
+    private DiscountDTO discountDTO;
 
     public String getId() {
         return id;
@@ -47,12 +48,12 @@ public class Product {
         this.description = description;
     }
 
-    public Discount getDiscount() {
-        return discount;
+    public DiscountDTO getDiscount() {
+        return discountDTO;
     }
 
-    public void setDiscount(Discount discount) {
-        this.discount = discount;
+    public void setDiscount(DiscountDTO discountDTO) {
+        this.discountDTO = discountDTO;
     }
 
 

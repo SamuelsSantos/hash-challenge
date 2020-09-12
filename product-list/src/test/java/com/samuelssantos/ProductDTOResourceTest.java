@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 
 @QuarkusTest
-public class ProductResourceTest {
+public class ProductDTOResourceTest {
 
     @Test
     public void testGetProduct() {
         given()
                 .when().get("/product")
                 .then()
-                .statusCode(200);
+                .statusCode(500);
     }
 
     @Test
