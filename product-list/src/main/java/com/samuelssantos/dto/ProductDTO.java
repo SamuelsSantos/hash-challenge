@@ -54,4 +54,6 @@ public class Product {
     public void setDiscount(Discount discount) {
         this.discount = discount;
     }
+
+
 }

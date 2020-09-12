@@ -4,6 +4,8 @@ package protorepo;
 
 option go_package = ".;pb";
 
+import "google/protobuf/Empty.proto";
+
 message Discount {
   double pct = 1;
   int64 value_in_cents = 2;
@@ -17,13 +19,11 @@ message Product {
   Discount discount = 5;
 }
 
-message Empty {}
-
 message RequestProduct {
   string id = 1;
 }
 
 service ProductService {
   rpc GetByID(RequestProduct) returns (Product) {};
-  rpc List(Empty) returns (stream Product) {};
+  rpc List(google.protobuf.Empty) returns (stream Product) {};
 }

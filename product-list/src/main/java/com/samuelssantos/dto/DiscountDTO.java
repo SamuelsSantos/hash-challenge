@@ -9,16 +9,16 @@ import javax.json.bind.config.PropertyOrderStrategy;
 public class Discount {
 
     @JsonbProperty("pct")
-    private float percent;
+    private double percent;
 
     @JsonbProperty("value_in_cents")
     private long valueInCents;
 
-    public float getPercent() {
+    public double getPercent() {
         return percent;
     }
 
-    public void setPercent(float percent) {
+    public void setPercent(double percent) {
         this.percent = percent;
     }
 
@@ -29,4 +29,5 @@ public class Discount {
     public void setValueInCents(long valueInCents) {
         this.valueInCents = valueInCents;
     }
+
 }
