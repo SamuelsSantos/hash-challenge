@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.23.0
 // 	protoc        v3.13.0
-// source: discountcalculator/discountcalculator.proto
+// source: discountcalculator.proto
 
 package pb
 
@@ -41,7 +41,7 @@ type DiscountRequest struct {
 func (x *DiscountRequest) Reset() {
 	*x = DiscountRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_discountcalculator_discountcalculator_proto_msgTypes[0]
+		mi := &file_discountcalculator_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -54,7 +54,7 @@ func (x *DiscountRequest) String() string {
 func (*DiscountRequest) ProtoMessage() {}
 
 func (x *DiscountRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_discountcalculator_discountcalculator_proto_msgTypes[0]
+	mi := &file_discountcalculator_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -67,7 +67,7 @@ func (x *DiscountRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DiscountRequest.ProtoReflect.Descriptor instead.
 func (*DiscountRequest) Descriptor() ([]byte, []int) {
-	return file_discountcalculator_discountcalculator_proto_rawDescGZIP(), []int{0}
+	return file_discountcalculator_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *DiscountRequest) GetProductId() string {
@@ -89,13 +89,13 @@ type DiscountResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Msg string `protobuf:"bytes,1,opt,name=msg,proto3" json:"msg,omitempty"`
+	Result *Product `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 }
 
 func (x *DiscountResponse) Reset() {
 	*x = DiscountResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_discountcalculator_discountcalculator_proto_msgTypes[1]
+		mi := &file_discountcalculator_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -108,7 +108,7 @@ func (x *DiscountResponse) String() string {
 func (*DiscountResponse) ProtoMessage() {}
 
 func (x *DiscountResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_discountcalculator_discountcalculator_proto_msgTypes[1]
+	mi := &file_discountcalculator_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -121,73 +121,79 @@ func (x *DiscountResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DiscountResponse.ProtoReflect.Descriptor instead.
 func (*DiscountResponse) Descriptor() ([]byte, []int) {
-	return file_discountcalculator_discountcalculator_proto_rawDescGZIP(), []int{1}
+	return file_discountcalculator_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *DiscountResponse) GetMsg() string {
+func (x *DiscountResponse) GetResult() *Product {
 	if x != nil {
-		return x.Msg
+		return x.Result
 	}
-	return ""
+	return nil
 }
 
-var File_discountcalculator_discountcalculator_proto protoreflect.FileDescriptor
+var File_discountcalculator_proto protoreflect.FileDescriptor
 
-var file_discountcalculator_discountcalculator_proto_rawDesc = []byte{
-	0x0a, 0x2b, 0x64, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c,
-	0x61, 0x74, 0x6f, 0x72, 0x2f, 0x64, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x63, 0x61, 0x6c,
-	0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x02, 0x70,
-	0x62, 0x22, 0x49, 0x0a, 0x0f, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x5f,
-	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63,
-	0x74, 0x49, 0x64, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x22, 0x24, 0x0a, 0x10,
-	0x44, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d,
-	0x73, 0x67, 0x32, 0x51, 0x0a, 0x19, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x43, 0x61,
-	0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
-	0x34, 0x0a, 0x07, 0x50, 0x72, 0x6f, 0x63, 0x65, 0x73, 0x73, 0x12, 0x13, 0x2e, 0x70, 0x62, 0x2e,
-	0x44, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x14, 0x2e, 0x70, 0x62, 0x2e, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x1e, 0x0a, 0x14, 0x63, 0x6f, 0x6d, 0x2e, 0x73, 0x61, 0x6d,
-	0x75, 0x65, 0x6c, 0x73, 0x73, 0x61, 0x6e, 0x74, 0x6f, 0x73, 0x2e, 0x70, 0x62, 0x50, 0x01, 0x5a,
-	0x04, 0x2e, 0x3b, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+var file_discountcalculator_proto_rawDesc = []byte{
+	0x0a, 0x18, 0x64, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c,
+	0x61, 0x74, 0x6f, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x09, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x72, 0x65, 0x70, 0x6f, 0x1a, 0x0e, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x73, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x49, 0x0a, 0x0f, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x70, 0x72, 0x6f, 0x64,
+	0x75, 0x63, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x72,
+	0x6f, 0x64, 0x75, 0x63, 0x74, 0x49, 0x64, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f,
+	0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64,
+	0x22, 0x3e, 0x0a, 0x10, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2a, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x72, 0x65, 0x70, 0x6f,
+	0x2e, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74,
+	0x32, 0x5f, 0x0a, 0x19, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x43, 0x61, 0x6c, 0x63,
+	0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x42, 0x0a,
+	0x07, 0x50, 0x72, 0x6f, 0x63, 0x65, 0x73, 0x73, 0x12, 0x1a, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x72, 0x65, 0x70, 0x6f, 0x2e, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x72, 0x65, 0x70, 0x6f,
+	0x2e, 0x44, 0x69, 0x73, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x42, 0x1e, 0x0a, 0x14, 0x63, 0x6f, 0x6d, 0x2e, 0x73, 0x61, 0x6d, 0x75, 0x65, 0x6c, 0x73,
+	0x73, 0x61, 0x6e, 0x74, 0x6f, 0x73, 0x2e, 0x70, 0x62, 0x50, 0x01, 0x5a, 0x04, 0x2e, 0x3b, 0x70,
+	0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_discountcalculator_discountcalculator_proto_rawDescOnce sync.Once
-	file_discountcalculator_discountcalculator_proto_rawDescData = file_discountcalculator_discountcalculator_proto_rawDesc
+	file_discountcalculator_proto_rawDescOnce sync.Once
+	file_discountcalculator_proto_rawDescData = file_discountcalculator_proto_rawDesc
 )
 
-func file_discountcalculator_discountcalculator_proto_rawDescGZIP() []byte {
-	file_discountcalculator_discountcalculator_proto_rawDescOnce.Do(func() {
-		file_discountcalculator_discountcalculator_proto_rawDescData = protoimpl.X.CompressGZIP(file_discountcalculator_discountcalculator_proto_rawDescData)
+func file_discountcalculator_proto_rawDescGZIP() []byte {
+	file_discountcalculator_proto_rawDescOnce.Do(func() {
+		file_discountcalculator_proto_rawDescData = protoimpl.X.CompressGZIP(file_discountcalculator_proto_rawDescData)
 	})
-	return file_discountcalculator_discountcalculator_proto_rawDescData
+	return file_discountcalculator_proto_rawDescData
 }
 
-var file_discountcalculator_discountcalculator_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_discountcalculator_discountcalculator_proto_goTypes = []interface{}{
-	(*DiscountRequest)(nil),  // 0: pb.DiscountRequest
-	(*DiscountResponse)(nil), // 1: pb.DiscountResponse
+var file_discountcalculator_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_discountcalculator_proto_goTypes = []interface{}{
+	(*DiscountRequest)(nil),  // 0: protorepo.DiscountRequest
+	(*DiscountResponse)(nil), // 1: protorepo.DiscountResponse
+	(*Product)(nil),          // 2: protorepo.Product
 }
-var file_discountcalculator_discountcalculator_proto_depIdxs = []int32{
-	0, // 0: pb.DiscountCalculatorService.Process:input_type -> pb.DiscountRequest
-	1, // 1: pb.DiscountCalculatorService.Process:output_type -> pb.DiscountResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+var file_discountcalculator_proto_depIdxs = []int32{
+	2, // 0: protorepo.DiscountResponse.result:type_name -> protorepo.Product
+	0, // 1: protorepo.DiscountCalculatorService.Process:input_type -> protorepo.DiscountRequest
+	1, // 2: protorepo.DiscountCalculatorService.Process:output_type -> protorepo.DiscountResponse
+	2, // [2:3] is the sub-list for method output_type
+	1, // [1:2] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_discountcalculator_discountcalculator_proto_init() }
-func file_discountcalculator_discountcalculator_proto_init() {
-	if File_discountcalculator_discountcalculator_proto != nil {
+func init() { file_discountcalculator_proto_init() }
+func file_discountcalculator_proto_init() {
+	if File_discountcalculator_proto != nil {
 		return
 	}
+	file_products_proto_init()
 	if !protoimpl.UnsafeEnabled {
-		file_discountcalculator_discountcalculator_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_discountcalculator_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DiscountRequest); i {
 			case 0:
 				return &v.state
@@ -199,7 +205,7 @@ func file_discountcalculator_discountcalculator_proto_init() {
 				return nil
 			}
 		}
-		file_discountcalculator_discountcalculator_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_discountcalculator_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DiscountResponse); i {
 			case 0:
 				return &v.state
@@ -216,20 +222,20 @@ func file_discountcalculator_discountcalculator_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_discountcalculator_discountcalculator_proto_rawDesc,
+			RawDescriptor: file_discountcalculator_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_discountcalculator_discountcalculator_proto_goTypes,
-		DependencyIndexes: file_discountcalculator_discountcalculator_proto_depIdxs,
-		MessageInfos:      file_discountcalculator_discountcalculator_proto_msgTypes,
+		GoTypes:           file_discountcalculator_proto_goTypes,
+		DependencyIndexes: file_discountcalculator_proto_depIdxs,
+		MessageInfos:      file_discountcalculator_proto_msgTypes,
 	}.Build()
-	File_discountcalculator_discountcalculator_proto = out.File
-	file_discountcalculator_discountcalculator_proto_rawDesc = nil
-	file_discountcalculator_discountcalculator_proto_goTypes = nil
-	file_discountcalculator_discountcalculator_proto_depIdxs = nil
+	File_discountcalculator_proto = out.File
+	file_discountcalculator_proto_rawDesc = nil
+	file_discountcalculator_proto_goTypes = nil
+	file_discountcalculator_proto_depIdxs = nil
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -257,7 +263,7 @@ func NewDiscountCalculatorServiceClient(cc grpc.ClientConnInterface) DiscountCal
 
 func (c *discountCalculatorServiceClient) Process(ctx context.Context, in *DiscountRequest, opts ...grpc.CallOption) (*DiscountResponse, error) {
 	out := new(DiscountResponse)
-	err := c.cc.Invoke(ctx, "/pb.DiscountCalculatorService/Process", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protorepo.DiscountCalculatorService/Process", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -291,7 +297,7 @@ func _DiscountCalculatorService_Process_Handler(srv interface{}, ctx context.Con
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.DiscountCalculatorService/Process",
+		FullMethod: "/protorepo.DiscountCalculatorService/Process",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DiscountCalculatorServiceServer).Process(ctx, req.(*DiscountRequest))
@@ -300,7 +306,7 @@ func _DiscountCalculatorService_Process_Handler(srv interface{}, ctx context.Con
 }
 
 var _DiscountCalculatorService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.DiscountCalculatorService",
+	ServiceName: "protorepo.DiscountCalculatorService",
 	HandlerType: (*DiscountCalculatorServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -309,5 +315,5 @@ var _DiscountCalculatorService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "discountcalculator/discountcalculator.proto",
+	Metadata: "discountcalculator.proto",
 }
