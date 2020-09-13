@@ -3,6 +3,7 @@ module github.com/SamuelsSantos/product-discount-service/products
 go 1.14
 
 require (
+	github.com/SamuelsSantos/product-discount-service/users v0.0.0-20200913195201-c89277ae5410
 	github.com/gin-gonic/gin v1.6.3
 	github.com/golang/protobuf v1.4.2
 	github.com/kr/pretty v0.1.0 // indirect

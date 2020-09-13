@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"database/sql"
+
 	"github.com/SamuelsSantos/product-discount-service/products/domain/pb"
 )
 
@@ -8,5 +10,5 @@ import (
 type ProductRepository interface {
 	GetByID(id string) (*pb.Product, error)
 	List() ([]*pb.Product, error)
-	Close() error
+	GetDB() (*sql.DB, error)
 }

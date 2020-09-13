@@ -5,39 +5,52 @@ import (
 	"errors"
 	"log"
 
+	"github.com/SamuelsSantos/product-discount-service/products/config"
 	"github.com/SamuelsSantos/product-discount-service/products/domain/pb"
 )
 
 //SQLRepo repository
 type SQLRepo struct {
-	db *sql.DB
+	Cfg *config.Config
 }
 
-//NewRepository create new repository
-func NewRepository(db *sql.DB) *SQLRepo {
-	return &SQLRepo{db}
+//NewSQLRepository create new repository
+func NewSQLRepository(cfg *config.Config) *SQLRepo {
+	return &SQLRepo{cfg}
 }
 
-//Close database connection
-func (r *SQLRepo) Close() error {
-	return r.db.Close()
+func newDBConnection(cfg *config.Config) (*sql.DB, error) {
+	return sql.Open(cfg.Db.Driver, cfg.Db.ToURL())
+}
+
+// GetDB new db connection
+func (r *SQLRepo) GetDB() (*sql.DB, error) {
+	return newDBConnection(r.Cfg)
 }
 
 // GetByID fetch product by ID
 func (r *SQLRepo) GetByID(id string) (*pb.Product, error) {
 
-	stmt, err := r.db.Prepare(`select id, title, description, price_in_cents from public.products where id = $1`)
+	db, err := r.GetDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	stmt, err := db.Prepare(`select id, title, description, price_in_cents from public.products where id = $1`)
 	defer stmt.Close()
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
+	defer stmt.Close()
 
 	rows, err := stmt.Query(id)
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
+	defer rows.Close()
 
 	for rows.Next() {
 		pbProduct, err := transform(rows)
@@ -54,11 +67,18 @@ func (r *SQLRepo) GetByID(id string) (*pb.Product, error) {
 // List all products
 func (r *SQLRepo) List() ([]*pb.Product, error) {
 
-	rows, err := r.db.Query(`select id, title, description, price_in_cents from public.products`)
+	db, err := r.GetDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	rows, err := db.Query(`select id, title, description, price_in_cents from public.products`)
 	defer rows.Close()
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
 	result := make([]*pb.Product, 0)
 	for rows.Next() {
