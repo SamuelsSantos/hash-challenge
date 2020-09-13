@@ -20,7 +20,7 @@ func main() {
 	repository := domain.NewSQLRepository(cfg)
 	service := domain.NewUserService(repository)
 
-	port := flag.Int("port", 8485, "the server port")
+	port := flag.Int("port", 50001, "the server port")
 	flag.Parse()
 	log.Printf("start server on port %d", *port)
 
