@@ -30,7 +30,7 @@ func fetchUser(c *gin.Context) {
 	defer conn.Close()
 
 	client := users.NewUserServiceClient(conn)
-	users, e := client.GetByID(context.Background(), &users.Request{
+	users, e := client.GetByID(context.Background(), &users.RequestUser{
 		Id: c.Param("id"),
 	})
 	if e != nil {

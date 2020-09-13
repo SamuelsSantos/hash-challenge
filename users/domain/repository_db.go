@@ -6,40 +6,53 @@ import (
 	"log"
 	"time"
 
+	"github.com/SamuelsSantos/product-discount-service/users/config"
 	"github.com/SamuelsSantos/product-discount-service/users/domain/pb"
 	"github.com/golang/protobuf/ptypes"
 )
 
 //SQLRepo repository
 type SQLRepo struct {
-	db *sql.DB
+	Cfg *config.Config
 }
 
-//NewRepository create new repository
-func NewRepository(db *sql.DB) *SQLRepo {
-	return &SQLRepo{db}
+//NewSQLRepository create new repository
+func NewSQLRepository(cfg *config.Config) *SQLRepo {
+	return &SQLRepo{cfg}
 }
 
-//Close database connection
-func (r *SQLRepo) Close() error {
-	return r.db.Close()
+func newDBConnection(cfg *config.Config) (*sql.DB, error) {
+	return sql.Open(cfg.Db.Driver, cfg.Db.ToURL())
+}
+
+// GetDB new db connection
+func (r *SQLRepo) GetDB() (*sql.DB, error) {
+	return newDBConnection(r.Cfg)
 }
 
 // GetByID fetch user by ID
 func (r *SQLRepo) GetByID(id string) (*pb.User, error) {
 
-	stmt, err := r.db.Prepare(`select id, first_name, last_name, date_of_birth from public.user where id = $1`)
+	db, err := r.GetDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	stmt, err := db.Prepare(`select id, first_name, last_name, date_of_birth from public.user where id = $1`)
 	defer stmt.Close()
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
+	defer stmt.Close()
 
 	rows, err := stmt.Query(id)
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
+	defer rows.Close()
 
 	for rows.Next() {
 		pbUser, err := transform(rows)
