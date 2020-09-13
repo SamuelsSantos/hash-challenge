@@ -15,6 +15,9 @@ import (
 func main() {
 
 	cfg := config.NewConfig()
+	log.Printf("User Service: %s", cfg.UserConfig.ToURL())
+	log.Printf("Product Service: %s", cfg.ProductConfig.ToURL())
+
 	userService := domain.NewUserService(cfg.UserConfig.ToURL())
 	productService := domain.NewProductService(cfg.ProductConfig.ToURL())
 

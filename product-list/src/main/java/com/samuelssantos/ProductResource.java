@@ -5,6 +5,7 @@ import com.samuelssantos.dto.DiscountDTO;
 import com.samuelssantos.dto.ProductDTO;
 import com.samuelssantos.pb.DiscountCalculatorServiceGrpc;
 import com.samuelssantos.pb.DiscountRequest;
+import io.quarkus.cache.CacheResult;
 import io.quarkus.grpc.runtime.annotations.GrpcService;
 import org.jboss.logging.Logger;
 import protorepo.ProductServiceGrpc;
@@ -63,6 +64,7 @@ public class ProductResource {
                 .build();
     }
 
+    @CacheResult(cacheName = "products")
     private Iterator<Products.Product> getProdutos() {
         Empty request = Empty.newBuilder().build();
         return productService.list(request);
@@ -75,10 +77,10 @@ public class ProductResource {
             Iterator<Products.Product> products = getProdutos();
             if (products != null && products.hasNext()) {
                 products.forEachRemaining(item -> {
-                    if (userId != EMPTY_USER)
-                        result.add(getDiscount(userId, item));
-                    else
+                    if (userId.trim().isBlank())
                         result.add(mapToDTO(item));
+                    else
+                        result.add(getDiscount(userId, item));
                 });
             }
 

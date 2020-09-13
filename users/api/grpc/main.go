@@ -11,12 +11,14 @@ import (
 	"github.com/SamuelsSantos/product-discount-service/users/domain/pb"
 	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
 
 	cfg := config.NewConfig()
 	service := domain.NewService(cfg)
+	defer service.Repo.Close()
 
 	port := flag.Int("port", 50001, "the server port")
 	flag.Parse()
@@ -26,6 +28,8 @@ func main() {
 
 	pb.RegisterUserServiceServer(grpc, service)
 	address := fmt.Sprintf("0.0.0.0:%d", *port)
+	reflection.Register(grpc)
+
 	listener, err := net.Listen("tcp", address)
 	if err != nil {
 		log.Fatal("cannot start server: ", err)

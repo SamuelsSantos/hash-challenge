@@ -2,7 +2,8 @@ package domain
 
 import (
 	"context"
-	"errors"
+	"log"
+	"time"
 
 	"github.com/SamuelsSantos/product-discount-service/discountcalculator/domain/pb"
 	"google.golang.org/grpc"
@@ -26,13 +27,20 @@ func (s *UserService) GetUserByID(id string) (*pb.User, error) {
 func getUserByID(host string, id string) (*pb.User, error) {
 	conn, err := grpc.Dial(host, grpc.WithInsecure())
 	if err != nil {
-		return nil, errors.New("Failed to fetch data from server")
+		log.Fatalln(err)
+		return nil, err
 	}
 	defer conn.Close()
 
-	user, err := pb.NewUserServiceClient(conn).GetByID(context.Background(), &pb.RequestUser{Id: id})
+	client := pb.NewUserServiceClient(conn)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
+	user, err := client.GetByID(ctx, &pb.RequestUser{Id: id})
 	if err != nil {
-		return nil, errors.New("Failed to connect to server")
+		log.Fatalln(err)
+		return nil, err
 	}
 
 	return user, nil
