@@ -6,8 +6,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/SamuelsSantos/product-discount-service/discount-calculator/pb"
-	"github.com/SamuelsSantos/product-discount-service/discount-calculator/service"
+	"github.com/SamuelsSantos/product-discount-service/discountcalculator/domain/pb"
 	"google.golang.org/grpc"
 )
 

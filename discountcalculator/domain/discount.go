@@ -21,8 +21,8 @@ func isBlackFriday(data time.Time) bool {
 		return false
 	}
 
-	bl, _ := time.Parse("2016-01-01", "2020-09-10")
-	return data.Format("2016-01-01") == bl.Format("2016-01-01")
+	today := time.Now()
+	return data.Format("2016-01-01") == today.Format("2016-01-01")
 }
 
 func isBirthDay(data time.Time) bool {
