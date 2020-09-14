@@ -3,6 +3,7 @@ package domain
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"net"
 	"reflect"
@@ -55,11 +56,11 @@ func (s *userClient) GetByID(ctx context.Context, r *pb.RequestUser) (*pb.User, 
 	return nil, errors.New("Not found")
 }
 
-func serverUserTest(t *testing.T, service *userClient) string {
+func serverUserTest(t *testing.T, service *userClient, port string) string {
 	server := grpc.NewServer()
 	pb.RegisterUserServiceServer(server, service)
 	reflection.Register(server)
-	listener, err := net.Listen("tcp", ":50000")
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 	if err != nil {
 		log.Fatal("cannot start server: ", err)
 	}
@@ -71,7 +72,7 @@ func serverUserTest(t *testing.T, service *userClient) string {
 func Test_getUserByID(t *testing.T) {
 
 	service := newUserService()
-	address := serverUserTest(t, service)
+	address := serverUserTest(t, service, "50110")
 
 	type args struct {
 		host string

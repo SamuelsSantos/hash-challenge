@@ -3,6 +3,7 @@ package domain
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"net"
 	"reflect"
@@ -79,11 +80,11 @@ func (s *productService) List(r *empty.Empty, stream pb.ProductService_ListServe
 	return nil
 }
 
-func serverProductTest(t *testing.T, service *productService) string {
+func serverProductTest(t *testing.T, service *productService, port string) string {
 	server := grpc.NewServer()
 	pb.RegisterProductServiceServer(server, service)
 	reflection.Register(server)
-	listener, err := net.Listen("tcp", ":50001")
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 	if err != nil {
 		log.Fatal("cannot start server: ", err)
 	}
@@ -95,7 +96,7 @@ func serverProductTest(t *testing.T, service *productService) string {
 func TestProductService_GetProductByID(t *testing.T) {
 
 	service := newProductService()
-	address := serverProductTest(t, service)
+	address := serverProductTest(t, service, "50111")
 
 	type fields struct {
 		host string

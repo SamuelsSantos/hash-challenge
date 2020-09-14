@@ -2,6 +2,7 @@ package domain
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net"
 	"reflect"
@@ -14,11 +15,11 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-func serverTest(t *testing.T, service *CalculatorServer) string {
+func serverTest(t *testing.T, service *CalculatorServer, port string) string {
 	server := grpc.NewServer()
 	pb.RegisterDiscountCalculatorServiceServer(server, service)
 	reflection.Register(server)
-	listener, err := net.Listen("tcp", ":50003")
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 	if err != nil {
 		log.Fatal("cannot start server: ", err)
 	}
@@ -29,23 +30,9 @@ func serverTest(t *testing.T, service *CalculatorServer) string {
 
 func TestCalculatorServerWhenBlackFriday_Process(t *testing.T) {
 
-	serviceUser := newUserService()
-	addressUser := serverUserTest(t, serviceUser)
-	serviceProduct := newProductService()
-	addressProduct := serverProductTest(t, serviceProduct)
-
-	clienteUser := NewUserClient(addressUser)
-	clientProduct := NewProductClient(addressProduct)
-
-	cfg := config.NewConfig()
-	cfg.BlackFridayDate = time.Now()
-	cfg.UserConfig.Host = "Localhost"
-	cfg.UserConfig.Port = "50000"
-	cfg.ProductConfig.Host = "Localhost"
-	cfg.ProductConfig.Port = "50001"
-
-	server := NewCalculatorServer(clienteUser, clientProduct, cfg)
-	serverTest(t, server)
+	cfg := getConfig(time.Now(), "50010", "50011")
+	server := configServer(t, cfg)
+	serverTest(t, server, "50009")
 
 	type args struct {
 		ctx context.Context
@@ -110,25 +97,34 @@ func TestCalculatorServerWhenBlackFriday_Process(t *testing.T) {
 	}
 }
 
-func TestCalculatorServerWhenIsJustBirthDay_Process(t *testing.T) {
+func getConfig(blackFriday time.Time, userPort, productPort string) *config.Config {
 
+	cfg := config.NewConfig()
+	cfg.BlackFridayDate = blackFriday
+	cfg.UserConfig.Host = "Localhost"
+	cfg.UserConfig.Port = userPort
+	cfg.ProductConfig.Host = "Localhost"
+	cfg.ProductConfig.Port = productPort
+	return cfg
+}
+
+func configServer(t *testing.T, cfg *config.Config) *CalculatorServer {
 	serviceUser := newUserService()
-	addressUser := serverUserTest(t, serviceUser)
+	addressUser := serverUserTest(t, serviceUser, cfg.UserConfig.Port)
 	serviceProduct := newProductService()
-	addressProduct := serverProductTest(t, serviceProduct)
+	addressProduct := serverProductTest(t, serviceProduct, cfg.ProductConfig.Port)
 
 	clienteUser := NewUserClient(addressUser)
 	clientProduct := NewProductClient(addressProduct)
 
-	cfg := config.NewConfig()
-	cfg.BlackFridayDate = time.Now().AddDate(0, 0, -1)
-	cfg.UserConfig.Host = "Localhost"
-	cfg.UserConfig.Port = "50000"
-	cfg.ProductConfig.Host = "Localhost"
-	cfg.ProductConfig.Port = "50001"
+	return NewCalculatorServer(clienteUser, clientProduct, cfg)
+}
 
-	server := NewCalculatorServer(clienteUser, clientProduct, cfg)
-	serverTest(t, server)
+func TestCalculatorServerWhenIsJustBirthDay_Process(t *testing.T) {
+
+	cfg := getConfig(time.Now().AddDate(0, 0, -1), "50012", "50013")
+	server := configServer(t, cfg)
+	serverTest(t, server, "50014")
 
 	type args struct {
 		ctx context.Context

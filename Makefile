@@ -13,7 +13,7 @@ msgtoDiscountCalculator:
 	cp product-list/src/main/proto/* discount-calculator/proto
 
 
-docker-rebuild:
+docker-rebuild: build-all
 	@docker-compose down 
 	@docker system prune -f
 	@docker volume prune -f

@@ -17,6 +17,12 @@ The endpoint response must be JSON encoded.
 To calculate each product discount the service must consume service 1 via gRPC.
 If service 1 errors while calculating a discount, the service must returns the product list but with zero discounts for the affected products.
 
+### Pré Requisitos:
+
+ - Java -> 11
+ - Quarkus
+ - Maven
+
 ```bash
 
 # clean
@@ -58,9 +64,15 @@ QUARKUS_DEBUG_REFLECTION=true
 QUARKUS_HTTP_PORT=8080
 ```
 
+![api](./docs/api.png)
+
 ## PRODUCTS
 
 This service is a grpc service that return a list or product by ID, this service uses an exclusive database.
+
+### Pré Requisitos:
+
+ - GO 1.14
 
 ### [_Api_](./protorepo/products.proto)
  
@@ -128,6 +140,10 @@ This is an repository to store proto files that you can shared into apps to gene
 
 This service is a grpc service that return a list or product by ID, this service uses an exclusive database.
 
+### Pré Requisitos:
+
+ - GO 1.14
+  
 ### [_Api_](./protorepo/users.proto)
 
 ```proto
@@ -185,6 +201,10 @@ This service is responsable to calculate discount following the rules below:
 - If it is black friday BLACK_FRIDAY=2020-11-25, the product has 10% discount
 - No product discount can be bigger than 10%
 
+### Pré Requisitos:
+
+ - GO 1.14
+
 ### [_Api_](./protorepo/discountcalculator.proto)
 
 ```proto
@@ -240,6 +260,8 @@ make build-all
 make docker-upbuild
 
 ```
+
+![Docker](./docs/docker.png)
 
 ## CONSIDERAÇÕES
 

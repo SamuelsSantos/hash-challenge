@@ -55,13 +55,13 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/SamuelsSantos/product-discount-service/discountcalculator/domain/discount.go (88.2%)</option>
+				<option value="file0">github.com/SamuelsSantos/product-discount-service/discountcalculator/domain/discount.go (100.0%)</option>
 				
-				<option value="file1">github.com/SamuelsSantos/product-discount-service/discountcalculator/domain/product.go (84.6%)</option>
+				<option value="file1">github.com/SamuelsSantos/product-discount-service/discountcalculator/domain/product.go (92.3%)</option>
 				
-				<option value="file2">github.com/SamuelsSantos/product-discount-service/discountcalculator/domain/service.go (0.0%)</option>
+				<option value="file2">github.com/SamuelsSantos/product-discount-service/discountcalculator/domain/service.go (81.2%)</option>
 				
-				<option value="file3">github.com/SamuelsSantos/product-discount-service/discountcalculator/domain/user.go (71.4%)</option>
+				<option value="file3">github.com/SamuelsSantos/product-discount-service/discountcalculator/domain/user.go (85.7%)</option>
 				
 				</select>
 			</div>
@@ -81,6 +81,8 @@ import (
         "time"
 )
 
+const layoutISO = "2006-01-02"
+
 type dateRule func(date time.Time) bool
 
 type blackFriday struct {
@@ -99,7 +101,7 @@ func isBlackFriday(data time.Time) bool <span class="cov8" title="1">{
         }</span>
 
         <span class="cov8" title="1">today := time.Now()
-        return data.Format("2016-01-01") == today.Format("2016-01-01")</span>
+        return data.Format(layoutISO) == today.Format(layoutISO)</span>
 }
 
 func isBirthDay(data time.Time) bool <span class="cov8" title="1">{
@@ -130,7 +132,7 @@ type StrategyCalculator interface {
 }
 
 // Calculate discount
-func Calculate(pct float64, valueInCents int64) int64 <span class="cov0" title="0">{
+func Calculate(pct float64, valueInCents int64) int64 <span class="cov8" title="1">{
 
         value := float64(valueInCents) * pct
 
@@ -163,18 +165,23 @@ import (
         "google.golang.org/grpc"
 )
 
-// ProductService ...
-type ProductService struct {
+// ProductClient definition
+type ProductClient struct {
         host string
 }
 
-// NewProductService create a new instance ProductService
-func NewProductService(host string) *ProductService <span class="cov0" title="0">{
-        return &amp;ProductService{host: host}
+// ProductService definition
+type ProductService interface {
+        GetProductByID(id string) (*pb.Product, error)
+}
+
+// NewProductClient create a new instance ProductClient
+func NewProductClient(host string) *ProductClient <span class="cov8" title="1">{
+        return &amp;ProductClient{host: host}
 }</span>
 
 // GetProductByID fetch product by ID
-func (s *ProductService) GetProductByID(id string) (*pb.Product, error) <span class="cov8" title="1">{
+func (s *ProductClient) GetProductByID(id string) (*pb.Product, error) <span class="cov8" title="1">{
         return getProductByID(s.host, id)
 }</span>
 
@@ -215,13 +222,13 @@ import (
 
 // CalculatorServer that provides a Discount Calculate Service
 type CalculatorServer struct {
-        userService    *UserService
-        productService *ProductService
+        userService    UserService
+        productService ProductService
         cfg            *config.Config
 }
 
 // NewCalculatorServer returns a new instance of Server
-func NewCalculatorServer(userService *UserService, productService *ProductService, cfg *config.Config) *CalculatorServer <span class="cov0" title="0">{
+func NewCalculatorServer(userService UserService, productService ProductService, cfg *config.Config) *CalculatorServer <span class="cov8" title="1">{
         return &amp;CalculatorServer{
                 userService:    userService,
                 productService: productService,
@@ -230,27 +237,27 @@ func NewCalculatorServer(userService *UserService, productService *ProductServic
 }</span>
 
 // Process calculate discount
-func (s *CalculatorServer) Process(ctx context.Context, req *pb.DiscountRequest) (*pb.DiscountResponse, error) <span class="cov0" title="0">{
+func (s *CalculatorServer) Process(ctx context.Context, req *pb.DiscountRequest) (*pb.DiscountResponse, error) <span class="cov8" title="1">{
 
         var dateOfBirth time.Time
-        if strings.TrimSpace(req.GetUserId()) != "" </span><span class="cov0" title="0">{
+        if strings.TrimSpace(req.GetUserId()) != "" </span><span class="cov8" title="1">{
                 user, err := s.userService.GetUserByID(req.GetUserId())
                 if err != nil </span><span class="cov0" title="0">{
                         log.Println(err)
-                }</span> else<span class="cov0" title="0"> {
+                }</span> else<span class="cov8" title="1"> {
                         if dateOfBirth, err = ptypes.Timestamp(user.GetDateOfBirth()); err != nil </span><span class="cov0" title="0">{
                                 log.Println(err)
                         }</span>
-                        <span class="cov0" title="0">log.Printf("Calculate discount to user: %v", user)</span>
+                        <span class="cov8" title="1">log.Printf("Calculate discount to user: %v", user.GetId())</span>
                 }
         }
 
-        <span class="cov0" title="0">product, err := s.productService.GetProductByID(req.GetProductId())
+        <span class="cov8" title="1">product, err := s.productService.GetProductByID(req.GetProductId())
         if err != nil </span><span class="cov0" title="0">{
                 return nil, err
         }</span>
 
-        <span class="cov0" title="0">log.Printf("Calculate discount to product: %v", product)
+        <span class="cov8" title="1">log.Printf("Calculate discount to product: %v", product.GetId())
         pct := GetDiscountPercentual(s.cfg.BlackFridayDate, dateOfBirth)
 
         product.Discount = &amp;pb.Discount{
@@ -275,18 +282,23 @@ import (
         "google.golang.org/grpc"
 )
 
-// UserService definition
-type UserService struct {
+// UserClient definition
+type UserClient struct {
         host string
 }
 
-// NewUserService create a new instance UserService
-func NewUserService(host string) *UserService <span class="cov0" title="0">{
-        return &amp;UserService{host: host}
+// UserService definition
+type UserService interface {
+        GetUserByID(id string) (*pb.User, error)
+}
+
+// NewUserClient create a new instance UserClient
+func NewUserClient(host string) *UserClient <span class="cov8" title="1">{
+        return &amp;UserClient{host: host}
 }</span>
 
 // GetUserByID fetch product by ID
-func (s *UserService) GetUserByID(id string) (*pb.User, error) <span class="cov0" title="0">{
+func (s *UserClient) GetUserByID(id string) (*pb.User, error) <span class="cov8" title="1">{
         return getUserByID(s.host, id)
 }</span>
 

@@ -14,4 +14,4 @@ VALUES
 ('952bb405-1841-5601-b768-1e77af4ba3f7', 'Mamie', 'Mendez'    , DATE '2005-9-15'),
 ('0387ccfe-00a5-57d5-a23b-535edb64749c', 'Chad', 'Benson'     , DATE '1994-9-16'),
 ('81ac12c3-3a92-5c4c-a69a-ddb81b1a25c5', 'Benjamin', 'Roberts', DATE '2008-5-07'),
-('c0d21968-2f07-5f51-9bf4-d3e03dbe590f', 'Walter', 'Bennett'  , DATE '2000-3-12 ');
+('c0d21968-2f07-5f51-9bf4-d3e03dbe590f', 'Walter', 'Bennett'  , DATE '2000-3-12');

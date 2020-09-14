@@ -77,9 +77,6 @@ public class ProductResource {
             Iterator<Products.Product> products = getProdutos();
             if (products != null && products.hasNext()) {
                 products.forEachRemaining(item -> {
-                    if (userId.trim().isBlank())
-                        result.add(mapToDTO(item));
-                    else
                         result.add(getDiscount(userId, item));
                 });
             }
