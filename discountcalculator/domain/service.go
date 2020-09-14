@@ -32,14 +32,19 @@ func (s *CalculatorServer) Process(ctx context.Context, req *pb.DiscountRequest)
 
 	var dateOfBirth time.Time
 	if strings.TrimSpace(req.GetUserId()) != "" {
-		user, _ := s.userService.GetUserByID(req.GetUserId())
-		dateOfBirth, _ = ptypes.Timestamp(user.GetDateOfBirth())
-		log.Printf("Calculate discount to user: %v", user)
+		user, err := s.userService.GetUserByID(req.GetUserId())
+		if err != nil {
+			log.Println(err)
+		} else {
+			if dateOfBirth, err = ptypes.Timestamp(user.GetDateOfBirth()); err != nil {
+				log.Println(err)
+			}
+			log.Printf("Calculate discount to user: %v", user)
+		}
 	}
 
 	product, err := s.productService.GetProductByID(req.GetProductId())
 	if err != nil {
-		log.Fatal(err)
 		return nil, err
 	}
 

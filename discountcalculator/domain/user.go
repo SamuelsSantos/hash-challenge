@@ -39,7 +39,6 @@ func getUserByID(host string, id string) (*pb.User, error) {
 
 	user, err := client.GetByID(ctx, &pb.RequestUser{Id: id})
 	if err != nil {
-		log.Fatalln(err)
 		return nil, err
 	}
 

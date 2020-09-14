@@ -64,7 +64,7 @@ public class ProductResource {
                 .build();
     }
 
-    @CacheResult(cacheName = "products")
+    @CacheResult(cacheName = "product-cache")
     private Iterator<Products.Product> getProdutos() {
         Empty request = Empty.newBuilder().build();
         return productService.list(request);
