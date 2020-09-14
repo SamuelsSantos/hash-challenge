@@ -18,7 +18,7 @@ build-api:
 	go build -o ./bin/grpc-products api/grpc/main.go
 
 linux-binaries:
-	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o $(BIN_DIR)/grpc-products-linux api/grpc/main.go
+	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o ./bin/grpc-products-linux api/grpc/main.go
 
 fmt: ## gofmt and goimports all go files
 	find . -name '*.go' -not -wholename './vendor/*' | while read -r file; do gofmt -w -s "$$file"; goimports -w "$$file"; done

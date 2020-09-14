@@ -28,3 +28,9 @@ docker-up:
 docker-upbuild:
 	@docker-compose up -d --build
 	@docker-compose logs -f
+
+build-all:
+	$(MAKE) -C products build
+	$(MAKE) -C users build
+	$(MAKE) -C discountcalculator build
+	$(MAKE) -C product-list build
