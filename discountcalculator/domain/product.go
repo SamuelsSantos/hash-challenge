@@ -8,18 +8,23 @@ import (
 	"google.golang.org/grpc"
 )
 
-// ProductService ...
-type ProductService struct {
+// ProductClient definition
+type ProductClient struct {
 	host string
 }
 
-// NewProductService create a new instance ProductService
-func NewProductService(host string) *ProductService {
-	return &ProductService{host: host}
+// ProductService definition
+type ProductService interface {
+	GetProductByID(id string) (*pb.Product, error)
+}
+
+// NewProductClient create a new instance ProductClient
+func NewProductClient(host string) *ProductClient {
+	return &ProductClient{host: host}
 }
 
 // GetProductByID fetch product by ID
-func (s *ProductService) GetProductByID(id string) (*pb.Product, error) {
+func (s *ProductClient) GetProductByID(id string) (*pb.Product, error) {
 	return getProductByID(s.host, id)
 }
 

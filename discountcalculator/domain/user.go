@@ -9,18 +9,23 @@ import (
 	"google.golang.org/grpc"
 )
 
-// UserService definition
-type UserService struct {
+// UserClient definition
+type UserClient struct {
 	host string
 }
 
-// NewUserService create a new instance UserService
-func NewUserService(host string) *UserService {
-	return &UserService{host: host}
+// UserService definition
+type UserService interface {
+	GetUserByID(id string) (*pb.User, error)
+}
+
+// NewUserClient create a new instance UserClient
+func NewUserClient(host string) *UserClient {
+	return &UserClient{host: host}
 }
 
 // GetUserByID fetch product by ID
-func (s *UserService) GetUserByID(id string) (*pb.User, error) {
+func (s *UserClient) GetUserByID(id string) (*pb.User, error) {
 	return getUserByID(s.host, id)
 }
 

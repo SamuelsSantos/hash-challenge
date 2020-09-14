@@ -13,13 +13,13 @@ import (
 
 // CalculatorServer that provides a Discount Calculate Service
 type CalculatorServer struct {
-	userService    *UserService
-	productService *ProductService
+	userService    UserService
+	productService ProductService
 	cfg            *config.Config
 }
 
 // NewCalculatorServer returns a new instance of Server
-func NewCalculatorServer(userService *UserService, productService *ProductService, cfg *config.Config) *CalculatorServer {
+func NewCalculatorServer(userService UserService, productService ProductService, cfg *config.Config) *CalculatorServer {
 	return &CalculatorServer{
 		userService:    userService,
 		productService: productService,

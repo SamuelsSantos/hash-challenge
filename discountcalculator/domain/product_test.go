@@ -127,7 +127,7 @@ func TestProductService_GetProductByID(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := &ProductService{
+			s := &ProductClient{
 				host: tt.fields.host,
 			}
 			got, err := s.GetProductByID(tt.args.id)

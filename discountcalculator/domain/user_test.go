@@ -16,11 +16,11 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-type userService struct {
+type userClient struct {
 	cache *cache.Cache
 }
 
-func newUserService() *userService {
+func newUserService() *userClient {
 
 	c := cache.New(cache.NoExpiration, 15*time.Second)
 
@@ -40,12 +40,12 @@ func newUserService() *userService {
 		cache.NoExpiration,
 	)
 
-	return &userService{
+	return &userClient{
 		cache: c,
 	}
 }
 
-func (s *userService) GetByID(ctx context.Context, r *pb.RequestUser) (*pb.User, error) {
+func (s *userClient) GetByID(ctx context.Context, r *pb.RequestUser) (*pb.User, error) {
 	id := r.GetId()
 
 	userCache, found := s.cache.Get(id)
@@ -55,7 +55,7 @@ func (s *userService) GetByID(ctx context.Context, r *pb.RequestUser) (*pb.User,
 	return nil, errors.New("Not found")
 }
 
-func serverUserTest(t *testing.T, service *userService) string {
+func serverUserTest(t *testing.T, service *userClient) string {
 	server := grpc.NewServer()
 	pb.RegisterUserServiceServer(server, service)
 	reflection.Register(server)
