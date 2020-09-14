@@ -29,3 +29,8 @@ docker-build: build
 
 server:
 	go run api/grpc/main.go -port 8486
+
+test:
+	mkdir -p ./coverage
+	@for d in $$(go list ./... | grep -v /domain/pb | grep -v /cmd); do go test $${d} -v -coverprofile=./coverage/tests.out; done
+	go tool cover -html=./coverage/tests.out -o ./coverage/coverage-report.html

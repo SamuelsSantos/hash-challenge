@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>domain: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/SamuelsSantos/product-discount-service/products/domain/repository_db.go (0.0%)</option>
+				
+				<option value="file1">github.com/SamuelsSantos/product-discount-service/products/domain/repository_in_memory.go (66.7%)</option>
+				
+				<option value="file2">github.com/SamuelsSantos/product-discount-service/products/domain/service.go (83.3%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package domain
+
+import (
+        "database/sql"
+        "errors"
+        "log"
+
+        "github.com/SamuelsSantos/product-discount-service/products/config"
+        "github.com/SamuelsSantos/product-discount-service/products/domain/pb"
+)
+
+//SQLRepo repository
+type SQLRepo struct {
+        Cfg *config.Config
+}
+
+//NewSQLRepository create new repository
+func NewSQLRepository(cfg *config.Config) *SQLRepo <span class="cov0" title="0">{
+        return &amp;SQLRepo{cfg}
+}</span>
+
+func newDBConnection(cfg *config.Config) (*sql.DB, error) <span class="cov0" title="0">{
+        return sql.Open(cfg.Db.Driver, cfg.Db.ToURL())
+}</span>
+
+// GetDB new db connection
+func (r *SQLRepo) GetDB() (*sql.DB, error) <span class="cov0" title="0">{
+        return newDBConnection(r.Cfg)
+}</span>
+
+// GetByID fetch product by ID
+func (r *SQLRepo) GetByID(id string) (*pb.Product, error) <span class="cov0" title="0">{
+
+        db, err := r.GetDB()
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatal(err)
+        }</span>
+        <span class="cov0" title="0">defer db.Close()
+
+        stmt, err := db.Prepare(`select id, title, description, price_in_cents from public.products where id = $1`)
+        defer stmt.Close()
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatal(err)
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">defer stmt.Close()
+
+        rows, err := stmt.Query(id)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatal(err)
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">defer rows.Close()
+
+        for rows.Next() </span><span class="cov0" title="0">{
+                pbProduct, err := transform(rows)
+                if err != nil </span><span class="cov0" title="0">{
+                        return nil, err
+                }</span>
+
+                <span class="cov0" title="0">return pbProduct, nil</span>
+        }
+
+        <span class="cov0" title="0">return nil, errors.New("Not found")</span>
+}
+
+// List all products
+func (r *SQLRepo) List() ([]*pb.Product, error) <span class="cov0" title="0">{
+
+        db, err := r.GetDB()
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatal(err)
+        }</span>
+        <span class="cov0" title="0">defer db.Close()
+
+        rows, err := db.Query(`select id, title, description, price_in_cents from public.products`)
+        defer rows.Close()
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">defer rows.Close()
+
+        result := make([]*pb.Product, 0)
+        for rows.Next() </span><span class="cov0" title="0">{
+                pbProduct, err := transform(rows)
+                if err != nil </span><span class="cov0" title="0">{
+                        return nil, err
+                }</span>
+
+                <span class="cov0" title="0">result = append(result, pbProduct)</span>
+        }
+
+        <span class="cov0" title="0">return result, nil</span>
+}
+
+func transform(r *sql.Rows) (*pb.Product, error) <span class="cov0" title="0">{
+
+        var id string
+        var title string
+        var description string
+        var priceInCents int64
+
+        err := r.Scan(&amp;id, &amp;title, &amp;description, &amp;priceInCents)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">return &amp;pb.Product{
+                Id:           id,
+                Title:        title,
+                Description:  description,
+                PriceInCents: priceInCents,
+        }, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package domain
+
+import (
+        "database/sql"
+        "errors"
+
+        "github.com/SamuelsSantos/product-discount-service/products/domain/pb"
+        _ "github.com/mattn/go-sqlite3"
+)
+
+//InMemoryRepo repository
+type InMemoryRepo struct {
+        data map[string]*pb.Product
+}
+
+//NewInMemoryRepository create new repository
+func NewInMemoryRepository() *InMemoryRepo <span class="cov8" title="1">{
+        data := make(map[string]*pb.Product, 2)
+
+        data["1"] = &amp;pb.Product{
+                Id:           "1",
+                Description:  "Produto Teste 01",
+                PriceInCents: 10090,
+                Title:        "Produto 01"}
+
+        data["2"] = &amp;pb.Product{
+                Id:           "2",
+                Description:  "Produto Teste 02",
+                PriceInCents: 10090,
+                Title:        "Produto 02"}
+
+        return &amp;InMemoryRepo{data}
+}</span>
+
+//GetDB database connection
+func (r *InMemoryRepo) GetDB() (*sql.DB, error) <span class="cov0" title="0">{
+        db, err := sql.Open("sqlite3", ":memory:")
+        if err != nil </span><span class="cov0" title="0">{
+                panic("failed to create in-memory SQLite database")</span>
+        }
+        <span class="cov0" title="0">return db, nil</span>
+}
+
+//Close database connection
+func (r *InMemoryRepo) Close() error <span class="cov0" title="0">{
+        r.data = make(map[string]*pb.Product, 0)
+        return nil
+}</span>
+
+// GetByID fetch product by ID
+func (r *InMemoryRepo) GetByID(id string) (*pb.Product, error) <span class="cov8" title="1">{
+
+        product := r.data[id]
+        if product == nil </span><span class="cov8" title="1">{
+                return nil, errors.New("Not found")
+        }</span>
+
+        <span class="cov8" title="1">return product, nil</span>
+}
+
+// List ...
+func (r *InMemoryRepo) List() ([]*pb.Product, error) <span class="cov8" title="1">{
+
+        var products []*pb.Product
+
+        for _, product := range r.data </span><span class="cov8" title="1">{
+                products = append(products, product)
+        }</span>
+
+        <span class="cov8" title="1">return products, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package domain
+
+import (
+        "context"
+        "errors"
+        "time"
+
+        "github.com/SamuelsSantos/product-discount-service/products/domain/pb"
+        empty "github.com/golang/protobuf/ptypes/empty"
+        "github.com/patrickmn/go-cache"
+)
+
+//ProductService  interface
+type ProductService struct {
+        repo  ProductRepository
+        cache *cache.Cache
+}
+
+//NewProductService create new service
+func NewProductService(repo ProductRepository) *ProductService <span class="cov8" title="1">{
+        return &amp;ProductService{
+                repo:  repo,
+                cache: cache.New(60*time.Second, 70*time.Second),
+        }
+}</span>
+
+// GetByID fetch product by ID
+func (s *ProductService) GetByID(ctx context.Context, r *pb.RequestProduct) (*pb.Product, error) <span class="cov8" title="1">{
+        id := r.GetId()
+
+        productCache, found := s.cache.Get(id)
+        if found </span><span class="cov0" title="0">{
+                return productCache.(*pb.Product), nil
+        }</span>
+
+        <span class="cov8" title="1">product, err := s.repo.GetByID(id)
+        if err != nil </span><span class="cov8" title="1">{
+                return nil, errors.New("Not found")
+        }</span>
+
+        <span class="cov8" title="1">s.cache.Set(product.GetId(), product, cache.DefaultExpiration)
+        return product, nil</span>
+}
+
+// List fetch products
+func (s *ProductService) List(r *empty.Empty, stream pb.ProductService_ListServer) error <span class="cov8" title="1">{
+
+        products, err := s.repo.List()
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">for _, product := range products </span><span class="cov8" title="1">{
+                err := stream.Send(product)
+                if err != nil </span><span class="cov0" title="0">{
+                        return err
+                }</span>
+        }
+
+        <span class="cov8" title="1">return nil</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

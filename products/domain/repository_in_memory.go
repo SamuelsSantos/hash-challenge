@@ -1,9 +1,11 @@
 package domain
 
 import (
+	"database/sql"
 	"errors"
 
 	"github.com/SamuelsSantos/product-discount-service/products/domain/pb"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 //InMemoryRepo repository
@@ -30,6 +32,15 @@ func NewInMemoryRepository() *InMemoryRepo {
 	return &InMemoryRepo{data}
 }
 
+//GetDB database connection
+func (r *InMemoryRepo) GetDB() (*sql.DB, error) {
+	db, err := sql.Open("sqlite3", ":memory:")
+	if err != nil {
+		panic("failed to create in-memory SQLite database")
+	}
+	return db, nil
+}
+
 //Close database connection
 func (r *InMemoryRepo) Close() error {
 	r.data = make(map[string]*pb.Product, 0)
@@ -45,4 +56,16 @@ func (r *InMemoryRepo) GetByID(id string) (*pb.Product, error) {
 	}
 
 	return product, nil
+}
+
+// List ...
+func (r *InMemoryRepo) List() ([]*pb.Product, error) {
+
+	var products []*pb.Product
+
+	for _, product := range r.data {
+		products = append(products, product)
+	}
+
+	return products, nil
 }

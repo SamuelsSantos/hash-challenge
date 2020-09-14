@@ -1,10 +1,12 @@
 package domain
 
 import (
+	"database/sql"
 	"errors"
 	"time"
 
 	"github.com/SamuelsSantos/product-discount-service/users/domain/pb"
+	_ "github.com/mattn/go-sqlite3"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -32,6 +34,15 @@ func NewInMemoryRepository() *InMemoryRepo {
 	}
 
 	return &InMemoryRepo{data}
+}
+
+//GetDB database connection
+func (r *InMemoryRepo) GetDB() (*sql.DB, error) {
+	db, err := sql.Open("sqlite3", ":memory:")
+	if err != nil {
+		panic("failed to create in-memory SQLite database")
+	}
+	return db, nil
 }
 
 //Close database connection
