@@ -18,8 +18,8 @@ func main() {
 	log.Printf("User Service: %s", cfg.UserConfig.ToURL())
 	log.Printf("Product Service: %s", cfg.ProductConfig.ToURL())
 
-	userService := domain.NewUserService(cfg.UserConfig.ToURL())
-	productService := domain.NewProductService(cfg.ProductConfig.ToURL())
+	userService := domain.NewUserClient(cfg.UserConfig.ToURL())
+	productService := domain.NewProductClient(cfg.ProductConfig.ToURL())
 
 	grpcServer := grpc.NewServer()
 	calculator := domain.NewCalculatorServer(userService, productService, cfg)

@@ -8,13 +8,6 @@ import static io.restassured.RestAssured.given;
 @QuarkusTest
 public class ProductDTOResourceTest {
 
-    @Test
-    public void testGetProduct() {
-        given()
-                .when().get("/product")
-                .then()
-                .statusCode(500);
-    }
 
     @Test
     public void testDocApi() {
