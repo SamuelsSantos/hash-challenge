@@ -240,7 +240,8 @@ make build-all
 make docker-upbuild
 
 ```
-Considerações:
+
+## CONSIDERAÇÕES
 
 - Cada serviço possui um arquivo Makefile com os principais comandos utilizados, e no diretório raíz possui um para buildar dos os serviços. 
 - Foi incluído um cache de 60s para evitar algumas chamadas no banco.
@@ -250,3 +251,6 @@ Considerações:
 - No diretorio _/infra_ dos serviços PRODUCTS e USERS há um arquivo _02-data.sql_ onde há alguns registros para popular a base, alguns deles já tem data de aniversário para os próximos dias.
 -  _:8488/health_ pode-se consultar o status da aplicação
 -  _:8488/metrics_ pode-se consultar as métricas
+- Sugestão: Acredito que se o serviço de calcular desconto pudesse receber apenas o valor do produto e id do usuário poderia ser mais performático. Fazendo o grpc server-stream para a consulta de produtos e a cada um recebido fosse feita uma chamada para o serviço de desconto.
+
+  
