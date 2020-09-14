@@ -6,6 +6,9 @@ import (
 	"time"
 )
 
+// LayoutISO "YYYY-MM-DD"
+const LayoutISO = "2006-01-02"
+
 // GetenvString get environment value or default value
 func GetenvString(key, standard string) string {
 	value := os.Getenv(key)
@@ -19,9 +22,9 @@ func GetenvString(key, standard string) string {
 func GetenvDate(key, standard string) time.Time {
 	value := os.Getenv(key)
 
-	date, err := time.Parse("2016-01-01", value)
+	date, err := time.Parse(LayoutISO, value)
 	if err != nil {
-		date, _ := time.Parse("2016-01-01", standard)
+		date, _ := time.Parse(LayoutISO, standard)
 		return date
 	}
 

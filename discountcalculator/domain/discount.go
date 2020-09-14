@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+const layoutISO = "2006-01-02"
+
 type dateRule func(date time.Time) bool
 
 type blackFriday struct {
@@ -22,7 +24,7 @@ func isBlackFriday(data time.Time) bool {
 	}
 
 	today := time.Now()
-	return data.Format("2016-01-01") == today.Format("2016-01-01")
+	return data.Format(layoutISO) == today.Format(layoutISO)
 }
 
 func isBirthDay(data time.Time) bool {

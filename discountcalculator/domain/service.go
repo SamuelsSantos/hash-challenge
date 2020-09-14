@@ -39,7 +39,7 @@ func (s *CalculatorServer) Process(ctx context.Context, req *pb.DiscountRequest)
 			if dateOfBirth, err = ptypes.Timestamp(user.GetDateOfBirth()); err != nil {
 				log.Println(err)
 			}
-			log.Printf("Calculate discount to user: %v", user)
+			log.Printf("Calculate discount to user: %v", user.GetId())
 		}
 	}
 
@@ -48,7 +48,7 @@ func (s *CalculatorServer) Process(ctx context.Context, req *pb.DiscountRequest)
 		return nil, err
 	}
 
-	log.Printf("Calculate discount to product: %v", product)
+	log.Printf("Calculate discount to product: %v", product.GetId())
 	pct := GetDiscountPercentual(s.cfg.BlackFridayDate, dateOfBirth)
 
 	product.Discount = &pb.Discount{

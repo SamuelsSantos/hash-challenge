@@ -17,6 +17,7 @@ func main() {
 	cfg := config.NewConfig()
 	log.Printf("User Service: %s", cfg.UserConfig.ToURL())
 	log.Printf("Product Service: %s", cfg.ProductConfig.ToURL())
+	log.Printf("Black Friday Date: %s", cfg.ToStringISO())
 
 	userService := domain.NewUserClient(cfg.UserConfig.ToURL())
 	productService := domain.NewProductClient(cfg.ProductConfig.ToURL())

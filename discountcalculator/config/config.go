@@ -45,3 +45,8 @@ func (cfg *Config) ToString() string {
 func (c *serviceConfig) ToURL() string {
 	return fmt.Sprintf("%s:%s", c.Host, c.Port)
 }
+
+// ToStringISO - LayoutISO: YYYY-MM-DD
+func (cfg *Config) ToStringISO() string {
+	return cfg.BlackFridayDate.Format(LayoutISO)
+}
