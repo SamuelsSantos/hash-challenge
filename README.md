@@ -138,7 +138,7 @@ This is an repository to store proto files that you can shared into apps to gene
 
 ## USERS
 
-This service is a grpc service that return a list or product by ID, this service uses an exclusive database.
+This service is a grpc service that return a list or user by ID, this service uses an exclusive database.
 
 ### Pré Requisitos:
 
@@ -147,8 +147,8 @@ This service is a grpc service that return a list or product by ID, this service
 ### [_Api_](./protorepo/users.proto)
 
 ```proto
-service ProductService {
-  rpc GetByID(RequestUser) returns (User) {}; // unary
+service UserService {
+  rpc GetByID(RequestUser) returns (User) {};
 }
 ```
 
